@@ -16,7 +16,7 @@ import {
     Mail,
     Globe,
 } from "lucide-react";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 
 const events = [
     {
@@ -522,7 +522,7 @@ function EventsSection() {
         setCurrentIndex((prev) => prev - 1);
     };
 
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         if (isMobile) {
             // Mobile: simple increment, will restart at end
             setCurrentIndex((prev) => {
@@ -535,7 +535,7 @@ function EventsSection() {
             // Desktop/Tablet: seamless infinite scroll
             setCurrentIndex((prev) => prev + 1);
         }
-    };
+    }, [isMobile]);
 
     // Auto-scroll every 3 seconds
     useEffect(() => {
@@ -628,8 +628,8 @@ function EventsSection() {
                             }}
                             transition={{ duration: 0.5, ease: "easeInOut" }}
                             style={{
-                                paddingLeft: window.innerWidth < 640 ? '16px' : '0px',
-                                paddingRight: window.innerWidth < 640 ? '16px' : '0px'
+                                paddingLeft: isMobile ? '16px' : '0px',
+                                paddingRight: isMobile ? '16px' : '0px'
                             }}
                         >
                             {duplicatedEvents.map((event, index) => (
@@ -647,9 +647,9 @@ function EventsSection() {
                                     transition={{ duration: 0.6, delay: (index % events.length) * 0.1 }}
                                     className="group relative aspect-[3/4]  overflow-hidden bg-white/5 backdrop-blur-sm border border-white/10 hover:border-red-500/40 transition-all duration-500 cursor-pointer shadow-xl hover:shadow-2xl hover:shadow-red-900/30 block flex-shrink-0"
                                     style={{
-                                        width: window.innerWidth < 640
+                                        width: isMobile
                                             ? `calc((${100 / cardsPerView}vw - 32px) - ${(3 * (cardsPerView - 1)) / cardsPerView}px)`
-                                            : `calc(${100 / cardsPerView}vw - ${((window.innerWidth < 1024 ? 4 : 6) * (cardsPerView - 1)) / cardsPerView}px)`
+                                            : `calc(${100 / cardsPerView}vw - ${((cardsPerView === 2.5 ? 4 : 6) * (cardsPerView - 1)) / cardsPerView}px)`
                                     }}
                                 >
                                     <Image

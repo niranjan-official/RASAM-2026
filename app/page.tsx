@@ -329,7 +329,7 @@ function HeroSection() {
                 transition={{ duration: 0.8, delay: 2.2 }}
             >
                 <p className="text-white text-sm leading-relaxed font-light mb-4">
-                    Providence College's premier cultural extravaganza celebrating creativity, talent, and artistic expression
+                    Providence College&apos;s premier cultural extravaganza celebrating creativity, talent, and artistic expression
                 </p>
             </motion.div>
 
@@ -544,7 +544,7 @@ function EventsSection() {
         }, 3000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [handleNext]);
 
     // Reset position when reaching boundaries for seamless loop (desktop/tablet only)
     useEffect(() => {

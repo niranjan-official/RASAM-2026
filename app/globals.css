@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Valentine color system - rose, pink, and slate with romantic accents */
+    --background: 0 0% 8%;
+    --foreground: 0 0% 95%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 65% 65%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 0 65% 65%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 27 65% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 65% 65%;
+    --chart-1: 0 65% 65%;
+    --chart-2: 15 60% 60%;
+    --chart-3: 350 55% 55%;
+    --chart-4: 10 50% 50%;
+    --chart-5: 5 45% 45%;
+    --radius: 0.625rem;
+    --sidebar: 0 0% 12%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 0 65% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 0 65% 65%;
+  }
+
+  .dark {
+    --background: 0 0% 8%;
+    --foreground: 0 0% 95%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 29 60% 62%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 29 60% 62%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 26 50% 40%;
+    --destructive-foreground: 0 0% 95%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 29 60% 62%;
+    --chart-1: 29 60% 62%;
+    --chart-2: 250 50% 50%;
+    --chart-3: 200 45% 45%;
+    --chart-4: 320 55% 55%;
+    --chart-5: 260 50% 50%;
+    --sidebar: 0 0% 12%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 29 60% 62%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 29 60% 62%;
+  }
+}
+
+@layer base {
+  * {
+    font-family: 'Poppins', sans-serif;
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+@layer utilities {
+  .hero-text-blend {
+    color: rgba(0, 0, 0, 0.7);
+    mix-blend-mode: soft-light;
+  }
+}

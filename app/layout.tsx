@@ -4,7 +4,7 @@ import { Inter, Poppins } from "next/font/google"
 import localFont from "next/font/local"
 import "./globals.css"
 
-const _poppins = Poppins({ 
+const _poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"]
 })
@@ -25,26 +25,25 @@ const eksterThin = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "RASAM Season 8 - Valentine's Cultural Festival",
+  title: "RASAM Season 7",
   description:
     "Celebrate love through art, music, dance, and fashion. Join RASAM, a Valentine-themed college cultural festival where hearts discover creativity.",
-  generator: "v0.app",
   icons: {
     icon: [
       {
-        url: "/icon-light-32x32.png",
+        url: "/images/logo.png",
         media: "(prefers-color-scheme: light)",
       },
       {
-        url: "/icon-dark-32x32.png",
+        url: "/images/logo.png",
         media: "(prefers-color-scheme: dark)",
       },
       {
-        url: "/icon.svg",
-        type: "image/svg+xml",
+        url: "/images/logo.png",
+        type: "image/png",
       },
     ],
-    apple: "/apple-icon.png",
+    apple: "/images/logo.png",
   },
 }
 

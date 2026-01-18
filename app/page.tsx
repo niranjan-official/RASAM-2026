@@ -3,7 +3,7 @@
 import type React from "react";
 import Image from "next/image";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
     Heart,
     Sparkles,
@@ -27,7 +27,7 @@ const events = [
     {
         title: "Mr & Ms Rasam",
         poster: "/images/posters/Mr Rasam.jpg",
-        url: "https://prvdnc.com/clipclash",
+        url: "https://prvdnc.com/crownquest",
     },
 
     {
@@ -53,12 +53,12 @@ const events = [
     {
         title: "Reels Competition",
         poster: "/images/posters/Reels Competition.jpg",
-        url: "https://prvdnc.com/trendparade",
+        url: "https://prvdnc.com/clipclash",
     },
     {
         title: "Fashion Show",
         poster: "/images/posters/Fashion Show.jpg",
-        url: "http://prvdnc.com/crownquest",
+        url: "http://prvdnc.com/trendparade",
     },
 
 ];
@@ -383,6 +383,33 @@ function AboutSection() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+    // Countdown state
+    const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+    useEffect(() => {
+        const calculateCountdown = () => {
+            const eventDate = new Date('2026-02-13T00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            if (distance > 0) {
+                setCountdown({
+                    days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+                    hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                    minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+                    seconds: Math.floor((distance % (1000 * 60)) / 1000)
+                });
+            } else {
+                setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+            }
+        };
+
+        calculateCountdown();
+        const interval = setInterval(calculateCountdown, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <section
             ref={ref}
@@ -411,7 +438,7 @@ function AboutSection() {
                             </span>{" "}
                             in its{" "}
                             <span className="text-red-200">
-                                eighth spectacular season
+                                seventh spectacular season
                             </span>
                             , unites students, professionals, and enthusiasts
                             across myriad domains. Igniting the stage with ingenuity, fueling{" "}
@@ -426,60 +453,127 @@ function AboutSection() {
                         </p>
                     </div>
 
-                    <div className="mt-6 md:mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
-                        {[
-                            { text: "Feb 13-14, 2026", label: "Save the Date", accent: "Date" },
-                            { text: "Providence College", label: "Chengannur", accent: "Venue" },
-                            { text: "Season 8", label: "The Legacy", accent: "Edition" }
-                        ].map((item, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.9 }}
-                                transition={{
-                                    duration: 0.7,
-                                    delay: 0.4 + index * 0.3,
-                                    ease: "easeOut"
-                                }}
-                                whileHover={{ y: -8, scale: 1.02 }}
-                                className="group relative p-6 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 hover:border-red-500/40 transition-all duration-500 overflow-hidden"
-                            >
-                                {/* Animated gradient overlay on hover */}
-                                <motion.div
-                                    className="absolute inset-0 bg-gradient-to-br from-red-500/0 to-rose-500/0 rounded-2xl"
-                                    whileHover={{
-                                        background: "linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(244, 63, 94, 0.05))",
-                                    }}
-                                    transition={{ duration: 0.5 }}
-                                />
-
-                                {/* Content */}
-                                <div className="relative z-10">
-                                    {/* Accent label */}
-                                    <div className="mb-4 flex items-center justify-between">
-                                        <span className="text-red-400/60 text-[10px] font-bold uppercase tracking-[0.25em]">{item.accent}</span>
-                                        <div className="h-px flex-1 ml-3 bg-gradient-to-r from-red-500/30 to-transparent" />
-                                    </div>
-
-                                    {/* Main text with gradient */}
-                                    <div className="text-center mb-3">
-                                        <div className="text-white font-bold text-xl mb-1 bg-gradient-to-r from-white via-white to-red-100 bg-clip-text group-hover:text-transparent transition-all duration-500" style={{ fontFamily: 'var(--font-ekster)' }}>
-                                            {item.text}
-                                        </div>
-                                    </div>
-
-                                    {/* Label with decorative dots */}
-                                    <div className="flex items-center justify-center gap-2">
-                                        <div className="w-1 h-1 rounded-full bg-red-400/40" />
-                                        <div className="text-red-200/70 text-[10px] uppercase tracking-[0.2em] font-medium">{item.label}</div>
-                                        <div className="w-1 h-1 rounded-full bg-red-400/40" />
+                    <div className="mt-6 md:mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto select-none">
+                        {/* Date Card */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.9 }}
+                            transition={{
+                                duration: 0.7,
+                                delay: 0.2,
+                                ease: [0.22, 1, 0.36, 1]
+                            }}
+                            whileHover={{ y: -8, scale: 1.03 }}
+                            className="group relative p-6 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 hover:border-red-500/40 transition-all duration-500 overflow-hidden"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-br from-red-500/0 to-rose-500/0 group-hover:from-red-500/5 group-hover:to-rose-500/5 transition-all duration-500 rounded-2xl" />
+                            <div className="relative z-10">
+                                <div className="mb-4 flex items-center justify-between">
+                                    <span className="text-red-400/60 text-[10px] font-bold uppercase tracking-[0.25em]">Date</span>
+                                    <div className="h-px flex-1 ml-3 bg-gradient-to-r from-red-500/30 to-transparent" />
+                                </div>
+                                <div className="text-center mb-3">
+                                    <div className="text-white font-bold text-xl mb-1 bg-gradient-to-r from-white via-white to-red-100 bg-clip-text group-hover:text-transparent transition-all duration-500" style={{ fontFamily: 'var(--font-ekster)' }}>
+                                        Feb 13-14, 2026
                                     </div>
                                 </div>
+                                <div className="flex items-center justify-center gap-2">
+                                    <div className="w-1 h-1 rounded-full bg-red-400/40" />
+                                    <div className="text-red-200/70 text-[10px] uppercase tracking-[0.2em] font-medium">Save the Date</div>
+                                    <div className="w-1 h-1 rounded-full bg-red-400/40" />
+                                </div>
+                            </div>
+                            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-red-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        </motion.div>
 
-                                {/* Bottom accent line */}
-                                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-red-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                            </motion.div>
-                        ))}
+                        {/* Countdown Card */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.9 }}
+                            transition={{
+                                duration: 0.7,
+                                delay: 0.35,
+                                ease: [0.22, 1, 0.36, 1]
+                            }}
+                            whileHover={{ y: -8, scale: 1.03 }}
+                            className="group relative p-6 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl rounded-2xl border border-red-500/40 transition-all duration-500 overflow-hidden"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-rose-500/5 transition-all duration-500 rounded-2xl" />
+                            <div className="relative z-10">
+                                <div className="mb-4 flex items-center justify-between">
+                                    <span className="text-red-400/60 text-[10px] font-bold uppercase tracking-[0.25em]">
+                                        {countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0 ? 'Edition' : 'Countdown'}
+                                    </span>
+                                    <div className="h-px flex-1 ml-3 bg-gradient-to-r from-red-500/30 to-transparent" />
+                                </div>
+                                <div className="text-center mb-3">
+                                    {countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0 ? (
+                                        <div className="text-white font-bold text-xl mb-1 bg-gradient-to-r from-white via-white to-red-100 bg-clip-text text-transparent transition-all duration-500" style={{ fontFamily: 'var(--font-ekster)' }}>
+                                            Season 7
+                                        </div>
+                                    ) : (
+                                        <div className="grid grid-cols-4 gap-2 text-white font-semibold" style={{ fontFamily: 'var(--font-ekster)' }}>
+                                            <div className="flex flex-col">
+                                                <span className="text-2xl bg-gradient-to-r from-white via-white to-red-100 bg-clip-text text-transparent transition-all duration-500">{String(countdown.days).padStart(2, '0')}</span>
+                                                <span className="text-[8px] text-red-200/50 uppercase mt-1">Days</span>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-2xl bg-gradient-to-r from-white via-white to-red-100 bg-clip-text text-transparent transition-all duration-500">{String(countdown.hours).padStart(2, '0')}</span>
+                                                <span className="text-[8px] text-red-200/50 uppercase mt-1">Hrs</span>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-2xl bg-gradient-to-r from-white via-white to-red-100 bg-clip-text text-transparent transition-all duration-500">{String(countdown.minutes).padStart(2, '0')}</span>
+                                                <span className="text-[8px] text-red-200/50 uppercase mt-1">Min</span>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-2xl bg-gradient-to-r from-white via-white to-red-100 bg-clip-text text-transparent transition-all duration-500">{String(countdown.seconds).padStart(2, '0')}</span>
+                                                <span className="text-[8px] text-red-200/50 uppercase mt-1">Sec</span>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="flex items-center justify-center gap-2">
+                                    <div className="w-1 h-1 rounded-full bg-red-400/40" />
+                                    <div className="text-red-200/70 text-[10px] uppercase tracking-[0.2em] font-medium">
+                                        {countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0 ? 'Event Live!' : 'Time Remaining'}
+                                    </div>
+                                    <div className="w-1 h-1 rounded-full bg-red-400/40" />
+                                </div>
+                            </div>
+                            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-red-500/50 to-transparent opacity-100 transition-opacity duration-500" />
+                        </motion.div>
+
+                        {/* Venue Card */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.9 }}
+                            transition={{
+                                duration: 0.7,
+                                delay: 0.5,
+                                ease: [0.22, 1, 0.36, 1]
+                            }}
+                            whileHover={{ y: -8, scale: 1.03 }}
+                            className="group relative p-6 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 hover:border-red-500/40 transition-all duration-500 overflow-hidden"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-br from-red-500/0 to-rose-500/0 group-hover:from-red-500/5 group-hover:to-rose-500/5 transition-all duration-500 rounded-2xl" />
+                            <div className="relative z-10">
+                                <div className="mb-4 flex items-center justify-between">
+                                    <span className="text-red-400/60 text-[10px] font-bold uppercase tracking-[0.25em]">Venue</span>
+                                    <div className="h-px flex-1 ml-3 bg-gradient-to-r from-red-500/30 to-transparent" />
+                                </div>
+                                <div className="text-center mb-3">
+                                    <div className="text-white font-bold text-xl mb-1 bg-gradient-to-r from-white via-white to-red-100 bg-clip-text group-hover:text-transparent transition-all duration-500" style={{ fontFamily: 'var(--font-ekster)' }}>
+                                        Providence College
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-center gap-2">
+                                    <div className="w-1 h-1 rounded-full bg-red-400/40" />
+                                    <div className="text-red-200/70 text-[10px] uppercase tracking-[0.2em] font-medium">Chengannur</div>
+                                    <div className="w-1 h-1 rounded-full bg-red-400/40" />
+                                </div>
+                            </div>
+                            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-red-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        </motion.div>
                     </div>
                 </motion.div>
             </div>
@@ -660,12 +754,6 @@ function EventsSection() {
                                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                         priority={index < 4}
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-
-                                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                        <h4 className="text-white font-bold text-base sm:text-lg md:text-xl mb-2" style={{ fontFamily: 'var(--font-ekster)' }}>{event.title}</h4>
-                                        <div className="h-0.5 w-full bg-gradient-to-r from-red-500 to-rose-500" />
-                                    </div>
 
                                 </motion.a>
                             ))}
@@ -694,17 +782,83 @@ function EventsSection() {
 function GallerySection() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const [activeIndex, setActiveIndex] = useState(2); // Start in middle
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    const galleryImages = [
+        { src: "/images/gallery/1.jpg", alt: "Season 7 Highlights" },
+        { src: "/images/gallery/2.jpg", alt: "Season 6" },
+        { src: "/images/gallery/3.jpg", alt: "Season 5" },
+        { src: "/images/gallery/4.jpg", alt: "Season 4" },
+        { src: "/images/gallery/5.jpg", alt: "Season 3" },
+    ];
+
+    const handleNext = () => {
+        setActiveIndex((prev) => (prev + 1) % galleryImages.length);
+    };
+
+    const handlePrev = () => {
+        setActiveIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+    };
+
+    const getCardStyle = (index: number) => {
+        // Calculate minimal distance in a circular array
+        const total = galleryImages.length;
+        let dist = (index - activeIndex + total) % total;
+
+        // Convert to signed distance for positioning (-2, -1, 0, 1, 2)
+        if (dist > total / 2) dist -= total;
+
+        const isCenter = dist === 0;
+        const absDist = Math.abs(dist);
+
+        // Visibility check - only show center and 2 on each side (1 on mobile)
+        if (isMobile) {
+            if (absDist > 1) return { zIndex: 0, opacity: 0, scale: 0, x: "0%" };
+        } else {
+            if (absDist > 2) return { zIndex: 0, opacity: 0, scale: 0, x: "0%" };
+        }
+
+        if (isMobile) {
+            return {
+                zIndex: 50 - absDist * 10,
+                scale: isCenter ? 1 : 0.85,
+                opacity: isCenter ? 1 : 1 - (absDist * 0.3), // More blur/fade on mobile
+                filter: isCenter ? "blur(0px) brightness(1)" : `blur(4px) brightness(0.6)`,
+                x: `${dist * 75}%`, // Tighter spacing for mobile
+                rotateY: dist * 2, // Less rotation on mobile
+            };
+        }
+
+        return {
+            zIndex: 50 - absDist * 10,
+            scale: isCenter ? 1 : 1 - (absDist * 0.15),
+            opacity: isCenter ? 1 : 1 - (absDist * 0.2),
+            filter: isCenter ? "blur(0px) brightness(1)" : `blur(${absDist * 4}px) brightness(${1 - absDist * 0.3})`,
+            x: `${dist * 50}%`, // 50% spacing creates overlapping stack effect
+            rotateY: dist * 5, // Subtle 3D rotation
+        };
+    };
 
     return (
-        <section ref={ref} className="pt-10 pb-16 md:pb-32 px-4 bg-[#0A0101]">
-            <div className="max-w-7xl mx-auto">
+        <section ref={ref} id="gallery" className="relative pt-10 md:pb-32 px-4 bg-[#0A0101] overflow-hidden min-h-[600px] md:min-h-[800px] flex flex-col justify-center">
+            <div className="max-w-7xl mx-auto w-full">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={
                         isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
                     }
                     transition={{ duration: 0.8 }}
-                    className="mb-12 text-center"
+                    className="mb-10 text-center relative z-20"
                 >
                     {/* Decorative top line */}
                     <div className="flex items-center justify-center gap-4 mb-8">
@@ -725,132 +879,59 @@ function GallerySection() {
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 gap-4 max-w-6xl mx-auto" style={{ minHeight: '300px' }}>
-                    {/* Large image - takes 2x2 */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={
-                            isInView
-                                ? { opacity: 1, scale: 1 }
-                                : { opacity: 0, scale: 0.95 }
-                        }
-                        transition={{ duration: 0.5 }}
-                        whileHover={{ scale: 1.02 }}
-                        className="group relative col-span-1 sm:col-span-2 lg:col-span-2 lg:row-span-2 rounded-2xl overflow-hidden bg-white/5 border border-white/10 cursor-pointer hover:border-red-500 hover:shadow-[0_0_30px_-5px_rgba(239,68,68,0.5)] transition-all duration-300 aspect-square sm:aspect-auto" style={{ minHeight: '300px' }}
-                    >
-                        <Image
-                            src="/images/gallery/1.jpg"
-                            alt="Season 7 Highlights"
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 via-transparent to-red-600/10" />
+                {/* 3D Carousel Container */}
+                <div className="relative h-[350px] md:h-[500px] flex items-center justify-center perspective-1000">
+                    <div className="relative w-full max-w-[800px] h-[350px] md:h-[500px] flex items-center justify-center">
+                        <AnimatePresence mode="popLayout" initial={false}>
+                            {galleryImages.map((image, index) => {
+                                const style = getCardStyle(index);
 
-                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <span className="text-white font-bold text-lg">Season 7 Highlights</span>
-                        </div>
-                    </motion.div>
+                                return (
+                                    <motion.div
+                                        key={index}
+                                        className={`absolute top-0 rounded-3xl overflow-hidden shadow-2xl border border-white/10 ${isMobile ? 'w-[75%] aspect-[3/4]' : 'w-full md:w-[60%] aspect-square'}`}
+                                        initial={style}
+                                        animate={style}
+                                        transition={{
+                                            duration: 0.5,
+                                            ease: [0.32, 0.72, 0, 1]
+                                        }}
+                                        style={{
+                                            transformStyle: "preserve-3d",
+                                            left: isMobile ? "12.5%" : "20%", // Center alignment base
+                                        }}
+                                        onClick={() => setActiveIndex(index)}
+                                    >
+                                        <Image
+                                            src={image.src}
+                                            alt={image.alt}
+                                            fill
+                                            className="object-cover"
+                                            sizes="(max-width: 768px) 100vw, 800px"
+                                            priority={index === activeIndex}
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
+                                    </motion.div>
+                                );
+                            })}
+                        </AnimatePresence>
+                    </div>
 
-                    {/* Small image 1 (Top Middle) */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={
-                            isInView
-                                ? { opacity: 1, scale: 1 }
-                                : { opacity: 0, scale: 0.95 }
-                        }
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        whileHover={{ scale: 1.02 }}
-                        className="group relative col-span-1 row-span-1 rounded-2xl overflow-hidden bg-white/5 border border-white/10 cursor-pointer hover:border-red-500 hover:shadow-[0_0_30px_-5px_rgba(239,68,68,0.5)] transition-all duration-300 aspect-square" style={{ minHeight: '150px' }}
-                    >
-                        <Image
-                            src="/images/gallery/2.jpg"
-                            alt="Season 6"
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                            sizes="(max-width: 768px) 50vw, 25vw"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 via-transparent to-red-600/10" />
-                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <span className="text-white font-bold text-xs">Season 6</span>
-                        </div>
-                    </motion.div>
-
-                    {/* Small image 2 (Top Right) */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={
-                            isInView
-                                ? { opacity: 1, scale: 1 }
-                                : { opacity: 0, scale: 0.95 }
-                        }
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        whileHover={{ scale: 1.02 }}
-                        className="group relative col-span-1 row-span-1 rounded-2xl overflow-hidden bg-white/5 border border-white/10 cursor-pointer hover:border-red-500 hover:shadow-[0_0_30px_-5px_rgba(239,68,68,0.5)] transition-all duration-300 aspect-square" style={{ minHeight: '150px' }}
-                    >
-                        <Image
-                            src="/images/gallery/3.jpg"
-                            alt="Season 5"
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                            sizes="(max-width: 768px) 50vw, 25vw"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 via-transparent to-red-600/10" />
-                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <span className="text-white font-bold text-xs">Season 5</span>
-                        </div>
-                    </motion.div>
-
-                    {/* Small image 3 (Bottom Middle) */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={
-                            isInView
-                                ? { opacity: 1, scale: 1 }
-                                : { opacity: 0, scale: 0.95 }
-                        }
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                        whileHover={{ scale: 1.02 }}
-                        className="group relative col-span-1 row-span-1 rounded-2xl overflow-hidden bg-white/5 border border-white/10 cursor-pointer hover:border-red-500 hover:shadow-[0_0_30px_-5px_rgba(239,68,68,0.5)] transition-all duration-300 aspect-square" style={{ minHeight: '150px' }}
-                    >
-                        <Image
-                            src="/images/gallery/4.jpg"
-                            alt="Season 4"
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                            sizes="(max-width: 768px) 50vw, 25vw"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 via-transparent to-red-600/10" />
-                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <span className="text-white font-bold text-xs">Season 4</span>
-                        </div>
-                    </motion.div>
-
-                    {/* Small image 4 (Bottom Right) */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={
-                            isInView
-                                ? { opacity: 1, scale: 1 }
-                                : { opacity: 0, scale: 0.95 }
-                        }
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                        whileHover={{ scale: 1.02 }}
-                        className="group relative col-span-1 row-span-1 rounded-2xl overflow-hidden bg-white/5 border border-white/10 cursor-pointer hover:border-red-500 hover:shadow-[0_0_30px_-5px_rgba(239,68,68,0.5)] transition-all duration-300 aspect-square" style={{ minHeight: '150px' }}
-                    >
-                        <Image
-                            src="/images/gallery/5.jpg"
-                            alt="Season 3"
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                            sizes="(max-width: 768px) 50vw, 25vw"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 via-transparent to-red-600/10" />
-                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <span className="text-white font-bold text-xs">Season 3</span>
-                        </div>
-                    </motion.div>
+                    {/* Navigation Buttons */}
+                    <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex justify-between items-center px-4 md:px-12 pointer-events-none z-50">
+                        <button
+                            onClick={handlePrev}
+                            className="pointer-events-auto w-14 h-14 rounded-full bg-black/40 backdrop-blur-md border border-white/10 transition-all duration-300 flex items-center justify-center group shadow-xl"
+                        >
+                            <ArrowRight className="w-6 h-6 text-white rotate-180" />
+                        </button>
+                        <button
+                            onClick={handleNext}
+                            className="pointer-events-auto w-14 h-14 rounded-full bg-black/40 backdrop-blur-md border border-white/10 transition-all duration-300 flex items-center justify-center group shadow-xl"
+                        >
+                            <ArrowRight className="w-6 h-6 text-white" />
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -909,8 +990,8 @@ function ContactSection() {
                     </div>
                     <h3 className="text-xl font-bold text-white mb-2" style={{ fontFamily: 'var(--font-ekster)' }}>Email Us</h3>
                     <div className="flex flex-col items-center gap-1">
-                        <a href="mailto:providence.rasam@gmail.com" className="text-pink-50/80 text-sm hover:text-red-300 transition-colors">providence.rasam@gmail.com</a>
-                        <a href="mailto:rasam@providence.edu.in" className="text-pink-50/80 text-sm hover:text-red-300 transition-colors">rasam@providence.edu.in</a>
+                        <a href="mailto:rasam.social@providence.edu.in" className="text-pink-50/80 text-sm hover:text-red-300 transition-colors">rasam.social@providence.edu.in</a>
+                        <a href="mailto:marketing@providence.edu.in" className="text-pink-50/80 text-sm hover:text-red-300 transition-colors">marketing@providence.edu.in</a>
                     </div>
                 </motion.div>
 
@@ -927,7 +1008,7 @@ function ContactSection() {
                     <h3 className="text-xl font-bold text-white mb-2" style={{ fontFamily: 'var(--font-ekster)' }}>Visit Us</h3>
                     <p className="text-pink-50/80 text-sm text-center mb-4">Providence College of Engineering<br />Chengannur, Kerala</p>
                     <a
-                        href="https://maps.google.com"
+                        href="https://maps.app.goo.gl/gnpNXVozMNdfRgoW7"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs uppercase tracking-widest text-red-400 hover:text-red-300 border-b border-red-500/30 pb-0.5"
@@ -982,7 +1063,7 @@ function ContactSection() {
                             </svg>
                         </a>
                         <a
-                            href="https://rasam.providence.edu.in"
+                            href="https://providence.edu.in"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-3 rounded-full bg-white/5 hover:bg-red-500/20 text-pink-50 hover:text-red-400 transition-all duration-300"
@@ -1012,7 +1093,7 @@ function Footer() {
                                 Rasam
                             </h3>
                             <span className="text-xs uppercase tracking-[0.5em] text-red-500/50 font-light mt-1">
-                                Season 8
+                                Season 7
                             </span>
                         </div>
                         <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
@@ -1050,7 +1131,7 @@ function Footer() {
                                 { name: 'Instagram', url: 'https://instagram.com/providencece' },
                                 { name: 'LinkedIn', url: 'https://www.linkedin.com/school/providencece/posts/?feedView=all' },
                                 { name: 'Facebook', url: 'https://www.facebook.com/theprovidencecollege/' },
-                                { name: 'Official Website', url: 'https://www.providence.edu.in/' }
+                                { name: 'Official Website', url: 'https://providence.edu.in' }
                             ].map((social) => (
                                 <li key={social.name}>
                                     <a
@@ -1074,10 +1155,10 @@ function Footer() {
                         <ul className="space-y-3">
                             <li>
                                 <a
-                                    href="mailto:providence.rasam@gmail.com"
+                                    href="mailto:rasam.social@providence.edu.in"
                                     className="text-slate-400 text-sm hover:text-white transition-colors duration-300 break-all"
                                 >
-                                    providence.rasam@gmail.com
+                                    rasam.social@providence.edu.in
                                 </a>
                             </li>
                             <li className="text-slate-500 text-sm italic">
@@ -1090,7 +1171,7 @@ function Footer() {
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-slate-500 text-xs tracking-wider">
-                        © 2026 RASAM SEASON 8. PROVIDENCE COLLEGE OF ENGINEERING.
+                        © 2026 RASAM SEASON 7. PROVIDENCE COLLEGE OF ENGINEERING.
                     </p>
                     <div className="flex gap-6 text-[10px] text-slate-600 uppercase tracking-widest font-bold">
                         <span className="hover:text-red-400 transition-colors pointer-events-none">Privacy Policy</span>

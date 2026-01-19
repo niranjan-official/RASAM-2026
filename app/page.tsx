@@ -557,16 +557,22 @@ function AboutSection() {
                         >
                             <div className="absolute inset-0 bg-gradient-to-br from-red-500/0 to-rose-500/0 group-hover:from-red-500/5 group-hover:to-rose-500/5 transition-all duration-500 rounded-2xl" />
                             <div className="relative z-10">
-                                <div className="mb-4 flex items-center justify-between">
+                                <div className="mb-2 flex items-center justify-between">
                                     <span className="text-red-400/60 text-[10px] font-bold uppercase tracking-[0.25em]">Venue</span>
                                     <div className="h-px flex-1 ml-3 bg-gradient-to-r from-red-500/30 to-transparent" />
                                 </div>
-                                <div className="text-center mb-3">
-                                    <div className="text-white font-bold text-xl mb-1 bg-gradient-to-r from-white via-white to-red-100 bg-clip-text group-hover:text-transparent transition-all duration-500" style={{ fontFamily: 'var(--font-ekster)' }}>
-                                        Providence College
+                                <div className="text-center mb-1">
+                                    <div className="flex flex-col items-center justify-center w-full">
+                                        <div className="text-white font-bold text-lg leading-none bg-gradient-to-r mt-3 from-white via-white to-red-100 bg-clip-text group-hover:text-transparent transition-all duration-500" style={{ fontFamily: 'var(--font-ekster)' }}>
+                                            Providence College
+                                        </div>
+                                        <div className="text-red-200/70 text-[9px] uppercase tracking-[0.25em] font-medium mt-1">
+                                            of Engineering
+                                        </div>
+                                        <div className="h-px w-24 bg-gradient-to-r from-transparent via-red-500/30 to-transparent my-1.5" />
                                     </div>
                                 </div>
-                                <div className="flex items-center justify-center gap-2">
+                                <div className="flex items-center justify-center gap-2 mt-2">
                                     <div className="w-1 h-1 rounded-full bg-red-400/40" />
                                     <div className="text-red-200/70 text-[10px] uppercase tracking-[0.2em] font-medium">Chengannur</div>
                                     <div className="w-1 h-1 rounded-full bg-red-400/40" />
@@ -921,15 +927,15 @@ function GallerySection() {
                     <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex justify-between items-center px-4 md:px-12 pointer-events-none z-50">
                         <button
                             onClick={handlePrev}
-                            className="pointer-events-auto w-14 h-14 rounded-full bg-black/40 backdrop-blur-md border border-white/10 transition-all duration-300 flex items-center justify-center group shadow-xl"
+                            className="pointer-events-auto w-12 h-20 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 hover:border-red-500/50 hover:bg-black/60 transition-all duration-300 flex items-center justify-center group shadow-xl"
                         >
-                            <ArrowRight className="w-6 h-6 text-white rotate-180" />
+                            <ArrowRight className="w-6 h-6 text-white rotate-180 group-hover:-translate-x-1 transition-transform duration-300" />
                         </button>
                         <button
                             onClick={handleNext}
-                            className="pointer-events-auto w-14 h-14 rounded-full bg-black/40 backdrop-blur-md border border-white/10 transition-all duration-300 flex items-center justify-center group shadow-xl"
+                            className="pointer-events-auto w-12 h-20 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 hover:border-red-500/50 hover:bg-black/60 transition-all duration-300 flex items-center justify-center group shadow-xl"
                         >
-                            <ArrowRight className="w-6 h-6 text-white" />
+                            <ArrowRight className="w-6 h-6 text-white group-hover:translate-x-1 transition-transform duration-300" />
                         </button>
                     </div>
                 </div>

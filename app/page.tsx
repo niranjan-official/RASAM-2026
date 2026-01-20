@@ -5,18 +5,16 @@ import Image from "next/image";
 
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
-    Heart,
     Sparkles,
     ArrowRight,
     Menu,
     X,
-    CalendarDays,
     MapPinned,
-    Sparkle,
     Mail,
     Globe,
 } from "lucide-react";
 import { useRef, useState, useEffect, useCallback } from "react";
+import Loading from "@/components/loading";
 
 const events = [
     {
@@ -1190,6 +1188,19 @@ function Footer() {
 }
 
 export default function Home() {
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
     return (
         <main className="bg-[#0E0E0E] text-white overflow-x-hidden">
             <Header />

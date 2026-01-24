@@ -1034,7 +1034,7 @@ function ContactSection() {
                     <h3 className="text-xl font-bold text-pink-50 mb-4" style={{ fontFamily: 'var(--font-ekster)' }}>Follow Us</h3>
                     <div className="flex gap-4">
                         <a
-                            href="https://instagram.com/providencece"
+                            href="https://instagram.com/rasam.live"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-3 rounded-full bg-white/5 hover:bg-red-500/20 text-pink-50 hover:text-red-400 transition-all duration-300"
@@ -1132,7 +1132,7 @@ function Footer() {
                         </h4>
                         <ul className="space-y-3">
                             {[
-                                { name: 'Instagram', url: 'https://instagram.com/providencece' },
+                                { name: 'Instagram', url: 'https://instagram.com/rasam.live' },
                                 { name: 'LinkedIn', url: 'https://www.linkedin.com/school/providencece/posts/?feedView=all' },
                                 { name: 'Facebook', url: 'https://www.facebook.com/theprovidencecollege/' },
                                 { name: 'Official Website', url: 'https://providence.edu.in' }
